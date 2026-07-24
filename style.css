@@ -1,0 +1,21 @@
+/*
+Theme Name: Sea Winds
+Theme URI: https://seawindsadvertising.com/
+Author: Sea Winds BTL Advertising LLC
+Author URI: https://seawindsadvertising.com/
+Description: A premium, fully custom WordPress theme for Sea Winds BTL Advertising LLC — a Dubai-based BTL advertising and fabrication company. Pure custom PHP, CSS and JavaScript. No page builders.
+Version: 1.0.0
+Requires at least: 5.8
+Tested up to: 6.6
+Requires PHP: 7.4
+License: GNU General Public License v2 or later
+License URI: http://www.gnu.org/licenses/gpl-2.0.html
+Text Domain: seawinds
+Tags: custom-menu, featured-images, translation-ready, custom-post-type
+*/
+
+/*
+ * This file registers the theme with WordPress.
+ * All working styles live in /assets/css/ (main.css, animations.css, lightbox.css)
+ * and are enqueued from functions.php.
+ */

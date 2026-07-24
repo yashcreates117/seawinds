@@ -1,0 +1,9 @@
+# macOS
+.DS_Store
+Thumbs.db
+
+# Editor
+*.log
+node_modules/
+
+# The theme itself IS the repo — build artifacts / sources live outside it.
