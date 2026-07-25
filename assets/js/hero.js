@@ -2,9 +2,10 @@
    Sea Winds — hero.js
    Scroll-scrubbed hero: draws a JPEG frame sequence onto a pinned <canvas>,
    mapped to how far the user has scrolled through the tall hero section.
-   The first frame paints immediately; the rest stream in (in scroll order),
-   so the hero is usable right away and gets smoother as frames arrive.
-   Hero text lines fade through as configured in the section's data attribute.
+   A frosted-glass box on the left reveals three lines in sequence:
+     0–33%   "YOUR VISION."
+     33–66%  "OUR CRAFT."
+     66–100% "BROUGHT TO LIFE."   (stays until the hero is scrolled past)
    ========================================================================= */
 (function () {
 	'use strict';
@@ -19,14 +20,9 @@
 		var ctx = canvas.getContext('2d');
 		var base = section.getAttribute('data-frames') || '';
 		var count = parseInt(section.getAttribute('data-frame-count'), 10) || 0;
-		var lineEl = document.querySelector('#sw-hero-text .sw-hero__line');
 		var loader = document.getElementById('sw-hero-loader');
+		var lineEls = Array.prototype.slice.call(section.querySelectorAll('.sw-hero-line'));
 		var prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-		var lines = [];
-		try {
-			lines = JSON.parse(section.getAttribute('data-hero-lines')) || [];
-		} catch (e) {}
 
 		if (!count) {
 			return;
@@ -72,7 +68,6 @@
 			if (i > count - 1) { i = count - 1; }
 			if (i === currentFrame && !force) { return; }
 
-			// Fall back to the nearest already-loaded earlier frame.
 			var f = i;
 			while (f > 0 && !isReady(f)) { f--; }
 			if (!isReady(f)) { return; }
@@ -93,21 +88,17 @@
 			ctx.drawImage(img, dx, dy, dw, dh);
 		}
 
-		function updateText(progress) {
-			if (!lineEl || !lines.length) { return; }
-			var idx = Math.floor(progress * lines.length);
-			if (idx > lines.length - 1) { idx = lines.length - 1; }
+		// Reveal exactly one line based on scroll progress through the hero.
+		function updateLines(progress) {
+			if (!lineEls.length) { return; }
+			var idx = Math.floor(progress * lineEls.length);
+			if (idx > lineEls.length - 1) { idx = lineEls.length - 1; }
+			if (idx < 0) { idx = 0; }
 			if (idx === currentLine) { return; }
 			currentLine = idx;
-			if (prefersReduced) {
-				lineEl.textContent = lines[idx];
-				return;
-			}
-			lineEl.classList.add('is-swapping');
-			window.setTimeout(function () {
-				lineEl.textContent = lines[idx];
-				lineEl.classList.remove('is-swapping');
-			}, 220);
+			lineEls.forEach(function (el, i) {
+				el.classList.toggle('is-active', i === idx);
+			});
 		}
 
 		function progressNow() {
@@ -122,7 +113,7 @@
 			ticking = false;
 			var p = progressNow();
 			drawFrame(Math.round(p * (count - 1)));
-			updateText(p);
+			updateLines(p);
 		}
 
 		function onScroll() {
@@ -132,13 +123,11 @@
 			}
 		}
 
-		// Reduced motion: collapse the scroll length and show a single frame.
 		if (prefersReduced) {
 			section.style.height = '100vh';
 		}
 
-		// Sequential preload in scroll order so the frames a user reaches first
-		// are the ones that load first.
+		// Sequential preload in scroll order.
 		function loadFrom(i) {
 			if (i >= count) {
 				if (loader) { loader.classList.add('is-hidden'); }
@@ -152,7 +141,6 @@
 					drawFrame(0, true);
 					if (loader) { loader.classList.add('is-dim'); }
 				}
-				// If the freshly loaded frame is at/behind the current target, repaint.
 				render();
 				loadFrom(i + 1);
 			};
@@ -173,5 +161,10 @@
 			window.clearTimeout(resizeTimer);
 			resizeTimer = window.setTimeout(resize, 150);
 		});
+
+		// If the user hasn't scrolled, reveal the first line after a short delay.
+		window.setTimeout(function () {
+			updateLines(progressNow());
+		}, 500);
 	});
 })();

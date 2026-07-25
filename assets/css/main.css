@@ -537,23 +537,62 @@ button {
 	background: var(--charcoal-90);
 }
 
-.sw-hero-scroll__overlay {
-	position: relative;
-	z-index: 2;
-	text-align: center;
-	padding: 0 24px;
-	pointer-events: none;
-}
-
-/* Subtle darkening so the text stays legible over any frame. */
+/* Left-side dark gradient so the frosted-glass box is always legible over the
+   video, regardless of frame content. */
 .sw-hero-scroll__pin::after {
 	content: "";
 	position: absolute;
 	inset: 0;
 	z-index: 1;
-	background: linear-gradient(to bottom, rgba(13, 13, 13, 0.35) 0%, rgba(13, 13, 13, 0.15) 40%, rgba(13, 13, 13, 0.45) 100%);
+	background: linear-gradient(to right, rgba(0, 0, 0, 0.6) 0%, rgba(0, 0, 0, 0.2) 50%, transparent 100%);
 	pointer-events: none;
 }
+
+/* Frosted-glass text box, left side, vertically centered. */
+.sw-hero-glass {
+	position: absolute;
+	left: 6%;
+	top: 50%;
+	transform: translateY(-50%);
+	z-index: 2;
+	max-width: 480px;
+	background: rgba(0, 0, 0, 0.35);
+	backdrop-filter: blur(12px);
+	-webkit-backdrop-filter: blur(12px);
+	border: 1px solid rgba(255, 255, 255, 0.10);
+	border-radius: 16px;
+	padding: 40px 48px;
+}
+
+.sw-hero-glass__lines {
+	position: relative;
+	min-height: 2.6em;
+	font-family: var(--font-head);
+	font-size: clamp(36px, 4vw, 56px);
+	font-weight: 600;
+	line-height: 1.2;
+	letter-spacing: 0.02em;
+}
+
+.sw-hero-line {
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	margin: 0;
+	font: inherit;
+	opacity: 0;
+	transform: translateY(20px);
+	transition: opacity 0.8s ease, transform 0.8s ease;
+}
+
+.sw-hero-line.is-active {
+	opacity: 1;
+	transform: translateY(0);
+}
+
+.sw-hero-line__w { color: var(--warm-white); }
+.sw-hero-line__g { color: var(--gold); }
 
 .sw-hero-scroll__loader {
 	position: absolute;
@@ -590,6 +629,12 @@ button {
 @media (max-width: 768px) {
 	.sw-hero-scroll { height: 150vh; }
 	.sw-hero-scroll__pin { min-height: 480px; }
+	.sw-hero-glass {
+		left: 5%;
+		right: 5%;
+		max-width: none;
+		padding: 30px 28px;
+	}
 }
 
 /* Legacy static hero (kept for reference / fallback). */
