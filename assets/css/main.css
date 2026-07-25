@@ -510,8 +510,9 @@ button {
    ---------------------------------------------------------------------- */
 .sw-hero-scroll {
 	position: relative;
-	/* Cinematic scroll length: the clip plays across ~3.8 screen-heights. */
-	height: 380vh;
+	/* Scroll length ≈ how "fast" the clip scrubs. ~2 screen-heights = the clip
+	   plays roughly twice as fast per scroll, so visitors scroll far less. */
+	height: 200vh;
 	background: var(--charcoal-90);
 	color: var(--warm-white);
 }
@@ -587,7 +588,7 @@ button {
 }
 
 @media (max-width: 768px) {
-	.sw-hero-scroll { height: 260vh; }
+	.sw-hero-scroll { height: 150vh; }
 	.sw-hero-scroll__pin { min-height: 480px; }
 }
 
