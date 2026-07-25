@@ -107,7 +107,8 @@
 
 		ui.modalClose.addEventListener('click', closeModal);
 		ui.modal.addEventListener('click', function (e) {
-			if (e.target === ui.modal || e.target === ui.scroll) { closeModal(); }
+			// Close only when the dimmed backdrop (outside the panel) is clicked.
+			if (e.target === ui.modal) { closeModal(); }
 		});
 		ui.vClose.addEventListener('click', closeViewer);
 		ui.vNext.addEventListener('click', next);
@@ -152,10 +153,11 @@
 	}
 
 	function buildUI() {
-		// Tier 1 — project modal (grid of all photos).
+		// Tier 1 — project modal: a centered white panel on a dimmed backdrop.
 		var modal = make('div', 'sw-pmodal');
 		modal.setAttribute('role', 'dialog');
 		modal.setAttribute('aria-modal', 'true');
+		var panel = make('div', 'sw-pmodal__panel');
 		var head = make('div', 'sw-pmodal__head');
 		var title = make('h2', 'sw-pmodal__title');
 		var modalClose = make('button', 'sw-pmodal__close', closeSVG());
@@ -166,8 +168,9 @@
 		var scroll = make('div', 'sw-pmodal__scroll');
 		var grid = make('div', 'sw-pmodal__grid');
 		scroll.appendChild(grid);
-		modal.appendChild(head);
-		modal.appendChild(scroll);
+		panel.appendChild(head);
+		panel.appendChild(scroll);
+		modal.appendChild(panel);
 
 		// Tier 2 — fullscreen viewer (single photo).
 		var viewer = make('div', 'sw-pviewer');

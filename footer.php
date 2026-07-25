@@ -70,6 +70,6 @@ $sw = seawinds_brand();
 </a>
 
 <?php wp_footer(); ?>
-<!-- SEAWINDS BUILD: 2026-07-24-clients-rounded-v12 -->
+<!-- SEAWINDS BUILD: 2026-07-24-pmodal-panel-v13 -->
 </body>
 </html>
