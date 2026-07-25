@@ -70,6 +70,6 @@ $sw = seawinds_brand();
 </a>
 
 <?php wp_footer(); ?>
-<!-- SEAWINDS BUILD: 2026-07-24-hero-glass-text-v15 -->
+<!-- SEAWINDS BUILD: 2026-07-24-hero-glass-fix-v16 -->
 </body>
 </html>

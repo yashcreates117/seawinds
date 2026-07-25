@@ -566,7 +566,8 @@ button {
 
 .sw-hero-glass__lines {
 	position: relative;
-	min-height: 2.6em;
+	/* Tall enough to fully back the tallest line (the 2-line "BROUGHT / TO LIFE."). */
+	min-height: 2.8em;
 	font-family: var(--font-head);
 	font-size: clamp(36px, 4vw, 56px);
 	font-weight: 600;
@@ -576,19 +577,20 @@ button {
 
 .sw-hero-line {
 	position: absolute;
-	top: 0;
+	top: 50%;
 	left: 0;
 	right: 0;
 	margin: 0;
 	font: inherit;
 	opacity: 0;
-	transform: translateY(20px);
+	/* Vertically centred; the +20px is the fade-in offset. */
+	transform: translateY(calc(-50% + 20px));
 	transition: opacity 0.8s ease, transform 0.8s ease;
 }
 
 .sw-hero-line.is-active {
 	opacity: 1;
-	transform: translateY(0);
+	transform: translateY(-50%);
 }
 
 .sw-hero-line__w { color: var(--warm-white); }

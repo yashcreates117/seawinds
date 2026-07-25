@@ -30,7 +30,7 @@ $sw_hero_frames = 90;
 			<div class="sw-hero-glass__lines">
 				<h2 class="sw-hero-line" data-line="0"><span class="sw-hero-line__w">YOUR</span> <span class="sw-hero-line__g">VISION.</span></h2>
 				<h2 class="sw-hero-line" data-line="1"><span class="sw-hero-line__w">OUR</span> <span class="sw-hero-line__g">CRAFT.</span></h2>
-				<h2 class="sw-hero-line" data-line="2"><span class="sw-hero-line__w">BROUGHT TO</span> <span class="sw-hero-line__g">LIFE.</span></h2>
+				<h2 class="sw-hero-line" data-line="2"><span class="sw-hero-line__w">BROUGHT</span><br><span class="sw-hero-line__w">TO</span> <span class="sw-hero-line__g">LIFE.</span></h2>
 			</div>
 		</div>
 
