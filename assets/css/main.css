@@ -1827,12 +1827,12 @@ button {
 	gap: 24px;
 }
 
-/* Minimal square logo tiles: white, clean gold border, no hover. */
+/* Minimal square logo tiles: white, clean gold border, rounded corners, no hover. */
 .sw-client-box {
 	aspect-ratio: 1 / 1;
 	background: #fff;
 	border: 1px solid var(--gold);
-	border-radius: 0;
+	border-radius: 20px;
 	padding: 26px;
 	display: flex;
 	align-items: center;
