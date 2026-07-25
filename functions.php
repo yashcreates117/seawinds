@@ -759,6 +759,40 @@ function seawinds_brand() {
 }
 
 /**
+ * Central list of PROJECTS.
+ *
+ * The Portfolio page shows the 33 CATEGORIES (Exhibition Stand, Photo Booth, …).
+ * Each category contains one or more real projects — this is that list. The
+ * Gallery shows every project here flat (not grouped by category). Later, the
+ * same data will drive category pages (projects within a category) and single
+ * project pages (a project's photos).
+ *
+ * Fields per project:
+ *   name     — display title
+ *   slug     — URL segment ( /project/<slug>/ )
+ *   category — human label of the category it belongs to (one of the 33)
+ *   cat_slug — that category's slug (matches the Portfolio item slugs)
+ *   cover    — card image
+ *   images   — array of the project's photos (for the single-project page)
+ *
+ * Placeholder sample below until the real projects/photos are supplied.
+ */
+function seawinds_get_projects() {
+	return array(
+		array(
+			'name'     => 'The Sevens Stadium 2025',
+			'slug'     => 'the-sevens-stadium-2025',
+			'category' => 'Exhibition Stand',
+			'cat_slug' => 'exhibition-stand',
+			'cover'    => 'https://seawindsadvertising.com/wp-content/uploads/2021/08/Screenshot-2024-12-13-122041-1.png',
+			'images'   => array(
+				'https://seawindsadvertising.com/wp-content/uploads/2021/08/Screenshot-2024-12-13-122041-1.png',
+			),
+		),
+	);
+}
+
+/**
  * Return the URL for a named theme page, falling back to a slug path.
  *
  * @param string $slug     Page slug.
