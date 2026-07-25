@@ -70,6 +70,6 @@ $sw = seawinds_brand();
 </a>
 
 <?php wp_footer(); ?>
-<!-- SEAWINDS BUILD: 2026-07-24-pipeline-test-v8 -->
+<!-- SEAWINDS BUILD: 2026-07-24-clients-gallery-v9 -->
 </body>
 </html>

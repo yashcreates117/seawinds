@@ -277,6 +277,44 @@ function seawinds_ensure_portfolio_page() {
 add_action( 'init', 'seawinds_ensure_portfolio_page', 15 );
 
 /*
+ * Guarantee a real Clients PAGE exists at /our-clients/ using the clients
+ * template, so the header "Clients" link (which points to /our-clients/)
+ * resolves even if the original page was created at the slug 'our-clients-2'.
+ * The clients logo grid is hardcoded in the template, so an otherwise-empty
+ * page still renders correctly. Runs once per marker.
+ */
+function seawinds_ensure_clients_page() {
+	if ( 'v1' === get_option( 'seawinds_clients_page_ready' ) ) {
+		return;
+	}
+
+	$existing = get_page_by_path( 'our-clients' );
+	if ( $existing ) {
+		$page_id = $existing->ID;
+		if ( 'publish' !== $existing->post_status ) {
+			wp_update_post( array( 'ID' => $page_id, 'post_status' => 'publish' ) );
+		}
+	} else {
+		$page_id = wp_insert_post(
+			array(
+				'post_title'   => 'Our Clients',
+				'post_name'    => 'our-clients',
+				'post_status'  => 'publish',
+				'post_type'    => 'page',
+				'post_content' => '',
+			)
+		);
+	}
+
+	if ( $page_id && ! is_wp_error( $page_id ) ) {
+		update_post_meta( $page_id, '_wp_page_template', 'page-our-clients.php' );
+		flush_rewrite_rules();
+		update_option( 'seawinds_clients_page_ready', 'v1' );
+	}
+}
+add_action( 'init', 'seawinds_ensure_clients_page', 15 );
+
+/*
  * Reroute the /portfolio/ CPT-archive request to the Portfolio PAGE at the
  * QUERY level, before the main query runs. This is what actually fixes the
  * "Project Archive" browser-tab title: it works even if the rewrite rules were
@@ -826,13 +864,14 @@ function seawinds_template_router( $template ) {
 	// Interior pages → page-<slug>.php, keyed by the page's actual slug.
 	if ( is_page() ) {
 		$slug_map = array(
-			'about-us'    => 'page-about-us.php',
-			'services'    => 'page-services.php',
-			'portfolio'   => 'page-portfolio.php',
-			'gallery'     => 'page-gallery.php',
-			'our-clients' => 'page-our-clients.php',
-			'contact-us'  => 'page-contact-us.php',
-			'blog'        => 'page-blog.php',
+			'about-us'      => 'page-about-us.php',
+			'services'      => 'page-services.php',
+			'portfolio'     => 'page-portfolio.php',
+			'gallery'       => 'page-gallery.php',
+			'our-clients'   => 'page-our-clients.php',
+			'our-clients-2' => 'page-our-clients.php', // Fallback slug if 'our-clients' was taken.
+			'contact-us'    => 'page-contact-us.php',
+			'blog'          => 'page-blog.php',
 		);
 		$slug = get_post_field( 'post_name', get_queried_object_id() );
 		if ( isset( $slug_map[ $slug ] ) ) {

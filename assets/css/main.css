@@ -1818,34 +1818,29 @@ button {
 }
 
 .sw-client-box {
-	background: var(--white-soft);
-	border: 1px solid var(--gold-line-soft);
+	background: rgba(255, 255, 255, 0.06);
+	border: 1px solid rgba(201, 169, 110, 0.15);
 	border-radius: 32px;
 	padding: 30px;
 	height: 150px;
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	transition: border-color 0.3s var(--ease), transform 0.3s var(--ease);
+	transition: border-color 0.3s ease, transform 0.3s ease;
 }
 
 .sw-client-box img {
 	max-width: 100%;
 	max-height: 100%;
 	object-fit: contain;
-	filter: grayscale(1);
-	opacity: 0.8;
-	transition: filter 0.3s var(--ease), opacity 0.3s var(--ease);
+	/* Logos in full colour at all times. */
+	filter: none;
+	opacity: 1;
 }
 
 .sw-client-box:hover {
 	border-color: var(--gold);
-	transform: translateY(-5px);
-}
-
-.sw-client-box:hover img {
-	filter: grayscale(0);
-	opacity: 1;
+	transform: scale(1.05);
 }
 
 /* -------------------------------------------------------------------------
