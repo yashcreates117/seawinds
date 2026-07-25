@@ -132,3 +132,204 @@
 	.sw-lightbox__close { top: 16px; right: 16px; width: 42px; height: 42px; }
 	.sw-lightbox__counter { top: 20px; }
 }
+
+/* =========================================================================
+   Two-tier project lightbox (project-modal.js)
+   ========================================================================= */
+
+/* Tier 1 — project modal: grid of all a project's photos. */
+.sw-pmodal {
+	position: fixed;
+	inset: 0;
+	z-index: 99992;
+	background: rgba(13, 13, 13, 0.98);
+	display: flex;
+	flex-direction: column;
+	opacity: 0;
+	visibility: hidden;
+	transition: opacity 0.35s var(--ease), visibility 0.35s var(--ease);
+}
+
+.sw-pmodal.is-open {
+	opacity: 1;
+	visibility: visible;
+}
+
+.sw-pmodal__head {
+	flex-shrink: 0;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 20px;
+	padding: 20px 28px;
+	border-bottom: 1px solid var(--gold-line-soft);
+}
+
+.sw-pmodal__title {
+	font-family: var(--font-head);
+	font-size: 26px;
+	color: var(--warm-white);
+	margin: 0;
+}
+
+.sw-pmodal__scroll {
+	flex: 1;
+	overflow-y: auto;
+	padding: 28px;
+	-webkit-overflow-scrolling: touch;
+}
+
+.sw-pmodal__grid {
+	max-width: 1200px;
+	margin: 0 auto;
+	display: grid;
+	grid-template-columns: repeat(3, 1fr);
+	gap: 16px;
+}
+
+.sw-pmodal__cell {
+	aspect-ratio: 4 / 3;
+	overflow: hidden;
+	border-radius: 12px;
+	background: #1a1a1a;
+	border: 1px solid transparent;
+	padding: 0;
+	cursor: pointer;
+	transition: border-color 0.3s var(--ease);
+}
+
+.sw-pmodal__cell img {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	transition: transform 0.4s var(--ease);
+}
+
+.sw-pmodal__cell:hover {
+	border-color: var(--gold-line-strong);
+}
+
+.sw-pmodal__cell:hover img {
+	transform: scale(1.05);
+}
+
+/* Shared round controls for both tiers. */
+.sw-pmodal__close,
+.sw-pviewer__close,
+.sw-pviewer__nav {
+	width: 48px;
+	height: 48px;
+	border-radius: 50%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-shrink: 0;
+	color: var(--gold);
+	background: rgba(17, 17, 17, 0.5);
+	border: 1px solid var(--gold-line);
+	transition: background 0.3s var(--ease), color 0.3s var(--ease), border-color 0.3s var(--ease);
+}
+
+.sw-pmodal__close:hover,
+.sw-pviewer__close:hover,
+.sw-pviewer__nav:hover {
+	background: var(--gold);
+	color: var(--charcoal);
+	border-color: var(--gold);
+}
+
+.sw-pmodal__close svg,
+.sw-pviewer__close svg,
+.sw-pviewer__nav svg {
+	width: 22px;
+	height: 22px;
+}
+
+/* Tier 2 — fullscreen single-photo viewer. */
+.sw-pviewer {
+	position: fixed;
+	inset: 0;
+	z-index: 99995;
+	background: rgba(13, 13, 13, 0.97);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	opacity: 0;
+	visibility: hidden;
+	transition: opacity 0.3s var(--ease), visibility 0.3s var(--ease);
+}
+
+.sw-pviewer.is-open {
+	opacity: 1;
+	visibility: visible;
+}
+
+.sw-pviewer__stage {
+	max-width: 90vw;
+	max-height: 90vh;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.sw-pviewer__img {
+	max-width: 90vw;
+	max-height: 90vh;
+	object-fit: contain;
+	border-radius: 6px;
+	opacity: 1;
+	transition: opacity 0.25s var(--ease);
+	pointer-events: none;
+	user-select: none;
+	-webkit-user-drag: none;
+}
+
+.sw-pviewer__img.is-fading {
+	opacity: 0;
+}
+
+.sw-pviewer__close {
+	position: absolute;
+	top: 24px;
+	right: 24px;
+}
+
+.sw-pviewer__nav {
+	position: absolute;
+	top: 50%;
+	transform: translateY(-50%);
+	width: 54px;
+	height: 54px;
+}
+
+.sw-pviewer__nav--prev { left: 24px; }
+.sw-pviewer__nav--next { right: 24px; }
+
+.sw-pviewer__counter {
+	position: absolute;
+	top: 30px;
+	left: 50%;
+	transform: translateX(-50%);
+	font-size: 13px;
+	letter-spacing: 0.14em;
+	color: var(--warm-white);
+	background: rgba(17, 17, 17, 0.5);
+	border: 1px solid var(--gold-line);
+	padding: 8px 16px;
+	border-radius: 100px;
+}
+
+@media (max-width: 900px) {
+	.sw-pmodal__grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 560px) {
+	.sw-pmodal__grid { grid-template-columns: 1fr; }
+	.sw-pmodal__head { padding: 16px 18px; }
+	.sw-pmodal__title { font-size: 20px; }
+	.sw-pmodal__scroll { padding: 16px; }
+	.sw-pviewer__nav { width: 44px; height: 44px; }
+	.sw-pviewer__nav--prev { left: 12px; }
+	.sw-pviewer__nav--next { right: 12px; }
+	.sw-pviewer__close { top: 16px; right: 16px; }
+}

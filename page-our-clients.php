@@ -40,11 +40,11 @@ $sw_logos = array(
 	</div>
 </section>
 
-<section class="sw-section sw-section--dark">
+<section class="sw-section sw-section--light">
 	<div class="sw-container">
 		<div class="sw-clients-grid sw-stagger">
 			<?php foreach ( $sw_logos as $logo ) : ?>
-				<div class="sw-client-box sw-animate" data-anim="fadeUp">
+				<div class="sw-client-box sw-animate" data-anim="fadeIn">
 					<img src="<?php echo esc_url( $logo ); ?>" alt="<?php esc_attr_e( 'Client logo', 'seawinds' ); ?>" loading="lazy" decoding="async" draggable="false">
 				</div>
 			<?php endforeach; ?>

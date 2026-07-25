@@ -14,14 +14,14 @@ echo "\n<!-- SEAWINDS TEMPLATE: front-page.php -->\n";
 // Section 4 — Our Work Glimpses cards.
 $sw_glimpses = array(
 	array( 'title' => 'Exhibition Stand',   'url' => home_url( '/portfolio/exhibition-stand/' ),               'img' => 'https://seawindsadvertising.com/wp-content/uploads/2021/08/Screenshot-2024-12-13-122041-1.png' ),
-	array( 'title' => 'Sign Board',         'url' => home_url( '/project-cat/signage/' ),                      'img' => 'https://seawindsadvertising.com/wp-content/uploads/2024/11/0340a8_c135de1dd66346bb9eba449d1198945dmv2.jpg' ),
-	array( 'title' => 'Graphics',           'url' => home_url( '/project-cat/graphics/' ),                     'img' => 'https://seawindsadvertising.com/wp-content/uploads/2024/11/Digital-printing.jpg' ),
+	array( 'title' => 'Sign Board',         'url' => home_url( '/portfolio/outdoor-signboard/' ),                      'img' => 'https://seawindsadvertising.com/wp-content/uploads/2024/11/0340a8_c135de1dd66346bb9eba449d1198945dmv2.jpg' ),
+	array( 'title' => 'Graphics',           'url' => home_url( '/portfolio/indoor-outdoor-graphics-branding/' ),                     'img' => 'https://seawindsadvertising.com/wp-content/uploads/2024/11/Digital-printing.jpg' ),
 	array( 'title' => 'Shop Decor',         'url' => home_url( '/portfolio/shop-front-signs/' ),               'img' => 'https://seawindsadvertising.com/wp-content/uploads/2024/11/0340a8_8022e3848a8b4a5aac215e13e4f84bd5mv2.jpg' ),
 	array( 'title' => 'Mall Kiosk',         'url' => home_url( '/portfolio/mall-kiosk/' ),                     'img' => 'https://seawindsadvertising.com/wp-content/uploads/2024/11/Khalidiya-kiosk-view-2_JPG.jpg' ),
 	array( 'title' => 'Shop Front Signs',   'url' => home_url( '/portfolio/shop-front-signs/' ),               'img' => 'https://seawindsadvertising.com/wp-content/uploads/2024/11/Al-Jaber-signboard-_-Arabian-Centre_JPG.jpg' ),
 	array( 'title' => 'Hoarding Graphics',  'url' => home_url( '/portfolio/hoarding-graphics/' ),              'img' => 'https://seawindsadvertising.com/wp-content/uploads/2021/08/Screenshot-2024-12-13-122726-1.png' ),
 	array( 'title' => 'Island Counter',     'url' => home_url( '/portfolio/island-counter/' ),                 'img' => 'https://seawindsadvertising.com/wp-content/uploads/2024/12/Screenshot-2024-12-13-123311-1.png' ),
-	array( 'title' => 'Display Stands',     'url' => home_url( '/project-cat/display-stands/' ),                'img' => 'https://seawindsadvertising.com/wp-content/uploads/2024/11/celebrity-optics-indoor-perspective-view_edited.jpeg' ),
+	array( 'title' => 'Display Stands',     'url' => home_url( '/portfolio/gondola/' ),                'img' => 'https://seawindsadvertising.com/wp-content/uploads/2024/11/celebrity-optics-indoor-perspective-view_edited.jpeg' ),
 	array( 'title' => 'Outdoor Signboard',  'url' => home_url( '/portfolio/outdoor-signboard/' ),              'img' => 'https://seawindsadvertising.com/wp-content/uploads/2021/08/Screenshot-2024-12-13-113048-1.png' ),
 	array( 'title' => 'Event Branding',     'url' => home_url( '/portfolio/event-branding/' ),                 'img' => 'https://seawindsadvertising.com/wp-content/uploads/2021/08/Screenshot-2024-12-13-121634-1.png' ),
 	array( 'title' => 'Wall Unit',          'url' => home_url( '/portfolio/wall-unit/' ),                      'img' => 'https://seawindsadvertising.com/wp-content/uploads/2024/11/celebrity-optics-wall-unit-display_JPG.jpeg' ),

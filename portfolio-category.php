@@ -1,24 +1,27 @@
 <?php
 /**
- * Template Name: Gallery Page
- * Template Post Type: page
+ * Portfolio category subpage — /portfolio/<category-slug>/
  *
- * Flat grid of ALL projects (not categories) — same blog-card style as the
- * Portfolio page, no filter tabs. Projects come from seawinds_get_projects().
- * Each card links to /project/<slug>/.
+ * Loaded by seawinds_category_template() in functions.php. Shows the projects
+ * that belong to one of the 33 categories as boxes (same style as the Portfolio
+ * grid). Clicking a project box opens its photo lightbox (project-modal.js).
  *
  * @package Seawinds
  */
 
 get_header();
 
-$sw_projects = seawinds_get_projects();
+$sw_slug     = get_query_var( 'sw_pf_cat' );
+$sw_cat      = seawinds_category_by_slug( $sw_slug );
+$sw_projects = $sw_cat ? seawinds_projects_in_category( $sw_slug ) : array();
+$sw_title    = $sw_cat ? $sw_cat['title'] : __( 'Portfolio', 'seawinds' );
+$sw_group    = $sw_cat ? $sw_cat['group'] : __( 'Our Work', 'seawinds' );
 ?>
 
 <section class="sw-page-hero">
 	<div class="sw-page-hero__inner">
-		<span class="sw-page-hero__eyebrow"><?php esc_html_e( 'Our Projects', 'seawinds' ); ?></span>
-		<h1 class="sw-page-hero__title"><?php esc_html_e( 'Gallery', 'seawinds' ); ?></h1>
+		<span class="sw-page-hero__eyebrow"><?php echo esc_html( $sw_group ); ?></span>
+		<h1 class="sw-page-hero__title"><?php echo esc_html( $sw_title ); ?></h1>
 		<div class="sw-page-hero__underline"></div>
 	</div>
 </section>
@@ -50,11 +53,11 @@ $sw_projects = seawinds_get_projects();
 				<?php endforeach; ?>
 			</div>
 		<?php else : ?>
-			<p class="sw-empty" style="color:#6a6459;"><?php esc_html_e( 'Projects will appear here soon.', 'seawinds' ); ?></p>
+			<p class="sw-empty" style="color:#6a6459;"><?php esc_html_e( 'Projects for this category are coming soon.', 'seawinds' ); ?></p>
 		<?php endif; ?>
 
 		<div class="sw-center-cta">
-			<a href="<?php echo esc_url( seawinds_page_url( 'contact-us', 'contact-us' ) ); ?>" class="sw-btn sw-btn--pill sw-btn--gold sw-btn--lg"><?php esc_html_e( 'Get In Touch', 'seawinds' ); ?></a>
+			<a href="<?php echo esc_url( seawinds_page_url( 'portfolio', 'portfolio' ) ); ?>" class="sw-btn sw-btn--pill sw-btn--outline sw-btn--lg">&larr; <?php esc_html_e( 'All Categories', 'seawinds' ); ?></a>
 		</div>
 	</div>
 </section>

@@ -201,7 +201,7 @@ add_action( 'init', 'seawinds_maybe_clean_portfolio_elementor', 25 );
  * taxonomy rewrite config changes.
  */
 function seawinds_maybe_flush_rewrites() {
-	$marker  = 'v4-portfolio-page'; // Bump this string on future rewrite changes.
+	$marker  = 'v5-category-subpages'; // Bump this string on future rewrite changes.
 	$current = get_option( 'seawinds_rewrite_version' );
 	if ( $current !== $marker ) {
 		flush_rewrite_rules();
@@ -394,6 +394,7 @@ function seawinds_assets() {
 	wp_enqueue_script( 'seawinds-carousel', SEAWINDS_URI . '/assets/js/carousel.js', array(), seawinds_asset_ver( 'assets/js/carousel.js' ), true );
 	wp_enqueue_script( 'seawinds-lightbox', SEAWINDS_URI . '/assets/js/lightbox.js', array(), seawinds_asset_ver( 'assets/js/lightbox.js' ), true );
 	wp_enqueue_script( 'seawinds-hero', SEAWINDS_URI . '/assets/js/hero.js', array(), seawinds_asset_ver( 'assets/js/hero.js' ), true );
+	wp_enqueue_script( 'seawinds-project-modal', SEAWINDS_URI . '/assets/js/project-modal.js', array(), seawinds_asset_ver( 'assets/js/project-modal.js' ), true );
 
 	// Expose data to the frontend (AJAX URL + nonce for the contact form).
 	wp_localize_script(
@@ -409,7 +410,7 @@ add_action( 'wp_enqueue_scripts', 'seawinds_assets' );
 
 /* Add defer attribute to non-critical theme scripts. */
 function seawinds_defer_scripts( $tag, $handle ) {
-	$defer = array( 'seawinds-scroll', 'seawinds-carousel', 'seawinds-lightbox', 'seawinds-hero' );
+	$defer = array( 'seawinds-scroll', 'seawinds-carousel', 'seawinds-lightbox', 'seawinds-hero', 'seawinds-project-modal' );
 	if ( in_array( $handle, $defer, true ) ) {
 		return str_replace( ' src', ' defer src', $tag );
 	}
@@ -791,6 +792,113 @@ function seawinds_get_projects() {
 		),
 	);
 }
+
+/**
+ * The 33 portfolio CATEGORIES (title, slug, parent group). Drives the Portfolio
+ * grid and the per-category subpages at /portfolio/<slug>/.
+ */
+function seawinds_get_categories() {
+	return array(
+		array( 'title' => 'Exhibition Stand',           'slug' => 'exhibition-stand',                 'group' => 'Events & Exhibition' ),
+		array( 'title' => 'Photo Booth',                'slug' => 'photo-booth',                      'group' => 'Events & Exhibition' ),
+		array( 'title' => 'Event Branding',             'slug' => 'event-branding',                   'group' => 'Events & Exhibition' ),
+		array( 'title' => 'Press Wall',                 'slug' => 'press-wall',                       'group' => 'Events & Exhibition' ),
+		array( 'title' => 'Themed Structures',          'slug' => 'themed-structures',                'group' => 'Events & Exhibition' ),
+		array( 'title' => 'Insta Box',                  'slug' => 'insta-box',                        'group' => 'Events & Exhibition' ),
+		array( 'title' => 'Flags',                      'slug' => 'flags-printing',                   'group' => 'Events & Exhibition' ),
+		array( 'title' => 'Promotion Stand',            'slug' => 'promotion-stand',                  'group' => 'Events & Exhibition' ),
+		array( 'title' => 'Pop-Up Stand',               'slug' => 'pop-up-stand',                     'group' => 'Events & Exhibition' ),
+		array( 'title' => 'Gondola',                    'slug' => 'gondola',                          'group' => 'Display Stands' ),
+		array( 'title' => 'Island Counter',             'slug' => 'island-counter',                   'group' => 'Display Stands' ),
+		array( 'title' => 'Mall Kiosk',                 'slug' => 'mall-kiosk',                        'group' => 'Display Stands' ),
+		array( 'title' => 'Optical Displays',           'slug' => 'optical-display',                  'group' => 'Display Stands' ),
+		array( 'title' => 'Light Box',                  'slug' => 'light-box',                        'group' => 'Display Stands' ),
+		array( 'title' => 'Acrylic Fabrication',        'slug' => 'acrylic-fabrication',              'group' => 'Display Stands' ),
+		array( 'title' => 'Mall Podium',                'slug' => 'mall-podium',                      'group' => 'Display Stands' ),
+		array( 'title' => 'Roll-up Stands',             'slug' => 'roll-up-stands',                   'group' => 'Display Stands' ),
+		array( 'title' => 'Pop-Up Counter',             'slug' => 'pop-up-counter',                   'group' => 'Display Stands' ),
+		array( 'title' => 'Pillar Unit',                'slug' => 'pillar-unit',                      'group' => 'Display Stands' ),
+		array( 'title' => 'Wall Unit',                  'slug' => 'wall-unit',                        'group' => 'Display Stands' ),
+		array( 'title' => 'Window Display',             'slug' => 'window-display',                   'group' => 'Display Stands' ),
+		array( 'title' => 'Outdoor Signboard',          'slug' => 'outdoor-signboard',                'group' => 'Signage' ),
+		array( 'title' => 'Shop Front Signage',         'slug' => 'shop-front-signs',                 'group' => 'Signage' ),
+		array( 'title' => 'Reception Signage',          'slug' => 'reception-signage',                'group' => 'Signage' ),
+		array( 'title' => 'Pylon Signage',              'slug' => 'pylon-signage',                    'group' => 'Signage' ),
+		array( 'title' => 'Neon Signs',                 'slug' => 'neon-signs',                       'group' => 'Signage' ),
+		array( 'title' => 'Corporate Logo',             'slug' => 'corporate-logo',                   'group' => 'Signage' ),
+		array( 'title' => 'CNC Cutting',                'slug' => 'cnc-cutting',                      'group' => 'Signage' ),
+		array( 'title' => 'In & Out Graphics Branding', 'slug' => 'indoor-outdoor-graphics-branding', 'group' => 'Graphics' ),
+		array( 'title' => 'Hoarding Graphics',          'slug' => 'hoarding-graphics',                'group' => 'Graphics' ),
+		array( 'title' => 'Outdoor Hoarding',           'slug' => 'outdoor-hoarding',                 'group' => 'Graphics' ),
+		array( 'title' => 'Vehicle Graphics',           'slug' => 'vehicle-graphics',                 'group' => 'Graphics' ),
+		array( 'title' => 'Cut-outs Mascot',            'slug' => 'cut-outs-mascot',                  'group' => 'Graphics' ),
+	);
+}
+
+/** Look up one category by slug. */
+function seawinds_category_by_slug( $slug ) {
+	foreach ( seawinds_get_categories() as $cat ) {
+		if ( $cat['slug'] === $slug ) {
+			return $cat;
+		}
+	}
+	return null;
+}
+
+/** All projects belonging to a category slug. */
+function seawinds_projects_in_category( $slug ) {
+	$out = array();
+	foreach ( seawinds_get_projects() as $p ) {
+		if ( isset( $p['cat_slug'] ) && $p['cat_slug'] === $slug ) {
+			$out[] = $p;
+		}
+	}
+	return $out;
+}
+
+/* -------------------------------------------------------------------------
+ * Category subpage routing: /portfolio/<category-slug>/ → portfolio-category.php
+ * ---------------------------------------------------------------------- */
+function seawinds_category_rewrite() {
+	// 'top' so this beats the project CPT's own /portfolio/<x>/ rule.
+	add_rewrite_rule( '^portfolio/([^/]+)/?$', 'index.php?sw_pf_cat=$matches[1]', 'top' );
+}
+add_action( 'init', 'seawinds_category_rewrite', 5 );
+
+function seawinds_category_query_var( $vars ) {
+	$vars[] = 'sw_pf_cat';
+	return $vars;
+}
+add_filter( 'query_vars', 'seawinds_category_query_var' );
+
+function seawinds_category_template( $template ) {
+	$slug = get_query_var( 'sw_pf_cat' );
+	if ( $slug && seawinds_category_by_slug( $slug ) ) {
+		status_header( 200 );
+		if ( isset( $GLOBALS['wp_query'] ) ) {
+			$GLOBALS['wp_query']->is_404 = false;
+		}
+		$tpl = locate_template( 'portfolio-category.php' );
+		if ( $tpl ) {
+			return $tpl;
+		}
+	}
+	return $template;
+}
+// 999998 = just under the portfolio override (999999); the override only fires
+// for the bare /portfolio/ view, so category subpages are left to this filter.
+add_filter( 'template_include', 'seawinds_category_template', 999998 );
+
+/** Correct <title> for category subpages. */
+function seawinds_category_document_title( $parts ) {
+	$slug = get_query_var( 'sw_pf_cat' );
+	$cat  = $slug ? seawinds_category_by_slug( $slug ) : null;
+	if ( $cat ) {
+		$parts['title'] = $cat['title'];
+	}
+	return $parts;
+}
+add_filter( 'document_title_parts', 'seawinds_category_document_title' );
 
 /**
  * Return the URL for a named theme page, falling back to a slug path.
