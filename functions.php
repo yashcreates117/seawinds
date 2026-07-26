@@ -820,6 +820,7 @@ function seawinds_get_categories() {
 		array( 'title' => 'Pillar Unit',                'slug' => 'pillar-unit',                      'group' => 'Display Stands' ),
 		array( 'title' => 'Wall Unit',                  'slug' => 'wall-unit',                        'group' => 'Display Stands' ),
 		array( 'title' => 'Window Display',             'slug' => 'window-display',                   'group' => 'Display Stands' ),
+		array( 'title' => 'Interior Decor',             'slug' => 'interior-decor',                   'group' => 'Interiors & Decor' ),
 		array( 'title' => 'Outdoor Signboard',          'slug' => 'outdoor-signboard',                'group' => 'Signage' ),
 		array( 'title' => 'Shop Front Signage',         'slug' => 'shop-front-signs',                 'group' => 'Signage' ),
 		array( 'title' => 'Reception Signage',          'slug' => 'reception-signage',                'group' => 'Signage' ),
@@ -827,7 +828,7 @@ function seawinds_get_categories() {
 		array( 'title' => 'Neon Signs',                 'slug' => 'neon-signs',                       'group' => 'Signage' ),
 		array( 'title' => 'Corporate Logo',             'slug' => 'corporate-logo',                   'group' => 'Signage' ),
 		array( 'title' => 'CNC Cutting',                'slug' => 'cnc-cutting',                      'group' => 'Signage' ),
-		array( 'title' => 'In & Out Graphics Branding', 'slug' => 'indoor-outdoor-graphics-branding', 'group' => 'Graphics' ),
+		array( 'title' => 'Graphics Branding',          'slug' => 'indoor-outdoor-graphics-branding', 'group' => 'Graphics' ),
 		array( 'title' => 'Hoarding Graphics',          'slug' => 'hoarding-graphics',                'group' => 'Graphics' ),
 		array( 'title' => 'Outdoor Hoarding',           'slug' => 'outdoor-hoarding',                 'group' => 'Graphics' ),
 		array( 'title' => 'Vehicle Graphics',           'slug' => 'vehicle-graphics',                 'group' => 'Graphics' ),
@@ -854,6 +855,76 @@ function seawinds_projects_in_category( $slug ) {
 		}
 	}
 	return $out;
+}
+
+/**
+ * Optional intro block rendered on a category subpage, below the hero and above
+ * the project grid. Returns HTML for categories that need it (e.g. CNC Cutting),
+ * or an empty string otherwise.
+ *
+ * @param string $slug Category slug.
+ * @return string HTML.
+ */
+function seawinds_category_intro( $slug ) {
+	if ( 'cnc-cutting' !== $slug ) {
+		return '';
+	}
+
+	$sw       = seawinds_brand();
+	$whatsapp = $sw['whatsapp_url'];
+	$wa_icon  = seawinds_icon( 'whatsapp' );
+
+	$machines   = array( 'CNC Router Cutting', 'CNC Laser Cutting' );
+	$materials  = array( 'MDF', 'Solid Wood', 'Laminate', 'Veneer', 'Acrylic', 'Aluminum' );
+	$techniques = array( '2D Cutting', '3D Cutting', 'Engraving', 'Grooving' );
+
+	ob_start();
+	?>
+	<div class="sw-cnc">
+		<p class="sw-cnc__lead">
+			Precision cutting, engineered to your exact spec. Our in-house CNC department runs both
+			<strong>router</strong> and <strong>laser</strong> systems for clean, repeatable results —
+			from flat 2D profiles to sculpted 3D forms, across wood, acrylic and metal alike.
+		</p>
+
+		<div class="sw-cnc__groups">
+			<div class="sw-cnc__group">
+				<span class="sw-cnc__label">Cutting Machines</span>
+				<div class="sw-pills">
+					<?php foreach ( $machines as $m ) : ?>
+						<span class="sw-pill"><?php echo esc_html( $m ); ?></span>
+					<?php endforeach; ?>
+				</div>
+			</div>
+			<div class="sw-cnc__group">
+				<span class="sw-cnc__label">Materials We Cut</span>
+				<div class="sw-pills">
+					<?php foreach ( $materials as $m ) : ?>
+						<span class="sw-pill"><?php echo esc_html( $m ); ?></span>
+					<?php endforeach; ?>
+				</div>
+			</div>
+			<div class="sw-cnc__group">
+				<span class="sw-cnc__label">Techniques</span>
+				<div class="sw-pills">
+					<?php foreach ( $techniques as $m ) : ?>
+						<span class="sw-pill"><?php echo esc_html( $m ); ?></span>
+					<?php endforeach; ?>
+				</div>
+			</div>
+		</div>
+
+		<div class="sw-cnc__cta">
+			<h3 class="sw-cnc__cta-title">Instant Quote — Share Your File Now</h3>
+			<p class="sw-cnc__cta-text">Send us your design file on WhatsApp and we'll get a quote back to you fast.</p>
+			<a class="sw-btn sw-btn--pill sw-btn--whatsapp-pill sw-btn--lg" href="<?php echo esc_url( $whatsapp ); ?>" target="_blank" rel="noopener noreferrer">
+				<?php echo $wa_icon; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+				<span>Share Your File on WhatsApp</span>
+			</a>
+		</div>
+	</div>
+	<?php
+	return ob_get_clean();
 }
 
 /* -------------------------------------------------------------------------

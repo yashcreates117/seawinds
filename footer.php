@@ -70,6 +70,6 @@ $sw = seawinds_brand();
 </a>
 
 <?php wp_footer(); ?>
-<!-- SEAWINDS BUILD: 2026-07-24-hero-box-width-v17 -->
+<!-- SEAWINDS BUILD: 2026-07-24-portfolio-cats-v18 -->
 </body>
 </html>

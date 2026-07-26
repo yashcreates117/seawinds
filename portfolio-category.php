@@ -28,6 +28,10 @@ $sw_group    = $sw_cat ? $sw_cat['group'] : __( 'Our Work', 'seawinds' );
 
 <section class="sw-pf sw-section--light">
 	<div class="sw-container">
+		<?php
+		// Optional per-category intro (e.g. CNC Cutting capabilities + quote CTA).
+		echo seawinds_category_intro( $sw_slug ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+		?>
 		<?php if ( ! empty( $sw_projects ) ) : ?>
 			<div class="sw-pf__grid sw-stagger">
 				<?php
