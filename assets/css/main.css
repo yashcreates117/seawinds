@@ -1663,6 +1663,9 @@ button {
 .sw-filter--light {
 	background: var(--warm-white);
 	border-bottom: 1px solid rgba(17, 17, 17, 0.08);
+	/* No bottom margin — otherwise the dark page background shows as a band
+	   between the (white) filter bar and the (light) grid section. */
+	margin-bottom: 0;
 }
 
 .sw-filter--light .sw-filter__btn {

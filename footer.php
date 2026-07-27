@@ -70,6 +70,6 @@ $sw = seawinds_brand();
 </a>
 
 <?php wp_footer(); ?>
-<!-- SEAWINDS BUILD: 2026-07-24-portfolio-uploads-scan-v19 -->
+<!-- SEAWINDS BUILD: 2026-07-24-portfolio-filter-band-v20 -->
 </body>
 </html>
