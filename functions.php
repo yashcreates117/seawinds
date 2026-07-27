@@ -778,20 +778,188 @@ function seawinds_brand() {
  *
  * Placeholder sample below until the real projects/photos are supplied.
  */
-function seawinds_get_projects() {
+/* Bump to invalidate the cached portfolio scan after code/content changes. */
+define( 'SEAWINDS_PF_CACHE_VER', 'v1' );
+
+/** Filesystem path + public URL of the uploaded portfolio folder. */
+function seawinds_portfolio_paths() {
+	$up = wp_get_upload_dir();
 	return array(
-		array(
-			'name'     => 'The Sevens Stadium 2025',
-			'slug'     => 'the-sevens-stadium-2025',
-			'category' => 'Exhibition Stand',
-			'cat_slug' => 'exhibition-stand',
-			'cover'    => 'https://seawindsadvertising.com/wp-content/uploads/2021/08/Screenshot-2024-12-13-122041-1.png',
-			'images'   => array(
-				'https://seawindsadvertising.com/wp-content/uploads/2021/08/Screenshot-2024-12-13-122041-1.png',
-			),
-		),
+		'dir' => trailingslashit( $up['basedir'] ) . 'portfolio',
+		'url' => trailingslashit( $up['baseurl'] ) . 'portfolio',
 	);
 }
+
+/** URL-encode each path segment but keep the slashes. */
+function seawinds_encode_path( $path ) {
+	$parts = explode( '/', $path );
+	$parts = array_map( 'rawurlencode', $parts );
+	return implode( '/', $parts );
+}
+
+/** Actual category folder name inside uploads/portfolio matching a title (case-insensitive). */
+function seawinds_find_category_folder( $title ) {
+	$paths = seawinds_portfolio_paths();
+	$base  = $paths['dir'];
+	if ( ! is_dir( $base ) ) {
+		return null;
+	}
+	$want = strtolower( trim( $title ) );
+	foreach ( (array) @scandir( $base ) as $entry ) { // phpcs:ignore
+		if ( '.' === $entry[0] ) {
+			continue;
+		}
+		if ( is_dir( $base . '/' . $entry ) && strtolower( trim( $entry ) ) === $want ) {
+			return $entry;
+		}
+	}
+	return null;
+}
+
+/** Image files (jpg/jpeg/png) directly inside a folder, sorted. */
+function seawinds_folder_images( $dir ) {
+	$out = array();
+	foreach ( (array) @scandir( $dir ) as $f ) { // phpcs:ignore
+		if ( '.' === $f[0] ) {
+			continue;
+		}
+		if ( is_file( $dir . '/' . $f ) && preg_match( '/\.(jpe?g|png)$/i', $f ) ) {
+			$out[] = $f;
+		}
+	}
+	sort( $out, SORT_NATURAL | SORT_FLAG_CASE );
+	return $out;
+}
+
+/** Category thumbnail = the "main cover.*" image at the category folder root. */
+function seawinds_category_cover( $slug ) {
+	$cat = seawinds_category_by_slug( $slug );
+	if ( ! $cat ) {
+		return '';
+	}
+	$folder = seawinds_find_category_folder( $cat['title'] );
+	if ( ! $folder ) {
+		return '';
+	}
+	$paths = seawinds_portfolio_paths();
+	foreach ( seawinds_folder_images( $paths['dir'] . '/' . $folder ) as $img ) {
+		if ( 0 === stripos( $img, 'main cover' ) || 0 === stripos( $img, 'maincover' ) ) {
+			return $paths['url'] . '/' . seawinds_encode_path( $folder . '/' . $img );
+		}
+	}
+	return '';
+}
+
+/**
+ * Scan one category's project subfolders into project records.
+ * Cover = "cover.*" if present, else the single image, else the first image.
+ * images = all images with the cover first (shown in the lightbox).
+ */
+function seawinds_scan_category_projects( $slug ) {
+	$cache_key = 'sw_pf_' . SEAWINDS_PF_CACHE_VER . '_' . $slug;
+	$cached    = get_transient( $cache_key );
+	if ( false !== $cached ) {
+		return $cached;
+	}
+
+	$cat = seawinds_category_by_slug( $slug );
+	if ( ! $cat ) {
+		return array();
+	}
+	$folder = seawinds_find_category_folder( $cat['title'] );
+	$paths  = seawinds_portfolio_paths();
+	$out    = array();
+
+	if ( $folder && is_dir( $paths['dir'] . '/' . $folder ) ) {
+		$cat_dir  = $paths['dir'] . '/' . $folder;
+		$projects = array();
+		foreach ( (array) @scandir( $cat_dir ) as $p ) { // phpcs:ignore
+			if ( '.' === $p[0] ) {
+				continue;
+			}
+			if ( is_dir( $cat_dir . '/' . $p ) ) {
+				$projects[] = $p;
+			}
+		}
+		sort( $projects, SORT_NATURAL | SORT_FLAG_CASE );
+
+		foreach ( $projects as $proj ) {
+			$imgs = seawinds_folder_images( $cat_dir . '/' . $proj );
+			if ( empty( $imgs ) ) {
+				continue;
+			}
+			// Pick the cover.
+			$cover = '';
+			foreach ( $imgs as $img ) {
+				if ( 0 === stripos( $img, 'cover' ) ) {
+					$cover = $img;
+					break;
+				}
+			}
+			if ( '' === $cover ) {
+				$cover = $imgs[0];
+			}
+			// Order: cover first, then the rest.
+			$ordered = array( $cover );
+			foreach ( $imgs as $img ) {
+				if ( $img !== $cover ) {
+					$ordered[] = $img;
+				}
+			}
+			$to_url = function ( $file ) use ( $paths, $folder, $proj ) {
+				return $paths['url'] . '/' . seawinds_encode_path( $folder . '/' . $proj . '/' . $file );
+			};
+			$out[] = array(
+				'name'     => $proj,
+				'slug'     => sanitize_title( $proj ),
+				'category' => $cat['title'],
+				'cat_slug' => $slug,
+				'cover'    => $to_url( $cover ),
+				'images'   => array_map( $to_url, $ordered ),
+			);
+		}
+	}
+
+	// Only cache real results, so an empty scan before the folder is uploaded
+	// is never cached (it re-checks each load until content appears).
+	if ( ! empty( $out ) ) {
+		set_transient( $cache_key, $out, 12 * HOUR_IN_SECONDS );
+	}
+	return $out;
+}
+
+/** All projects across every category (for the Gallery). Cached. */
+function seawinds_get_projects() {
+	$cache_key = 'sw_pf_all_' . SEAWINDS_PF_CACHE_VER;
+	$cached    = get_transient( $cache_key );
+	if ( false !== $cached ) {
+		return $cached;
+	}
+	$all = array();
+	foreach ( seawinds_get_categories() as $cat ) {
+		$all = array_merge( $all, seawinds_scan_category_projects( $cat['slug'] ) );
+	}
+	if ( ! empty( $all ) ) {
+		set_transient( $cache_key, $all, 12 * HOUR_IN_SECONDS );
+	}
+	return $all;
+}
+
+/**
+ * Admin-only cache flush: visit any page with ?sw_flush_portfolio=1 (while
+ * logged in as an admin) to clear the scanned portfolio cache after uploading
+ * or changing project folders.
+ */
+function seawinds_maybe_flush_portfolio_cache() {
+	if ( ! isset( $_GET['sw_flush_portfolio'] ) || ! is_user_logged_in() || ! current_user_can( 'manage_options' ) ) {
+		return;
+	}
+	delete_transient( 'sw_pf_all_' . SEAWINDS_PF_CACHE_VER );
+	foreach ( seawinds_get_categories() as $cat ) {
+		delete_transient( 'sw_pf_' . SEAWINDS_PF_CACHE_VER . '_' . $cat['slug'] );
+	}
+}
+add_action( 'template_redirect', 'seawinds_maybe_flush_portfolio_cache' );
 
 /**
  * The 33 portfolio CATEGORIES (title, slug, parent group). Drives the Portfolio
@@ -848,13 +1016,7 @@ function seawinds_category_by_slug( $slug ) {
 
 /** All projects belonging to a category slug. */
 function seawinds_projects_in_category( $slug ) {
-	$out = array();
-	foreach ( seawinds_get_projects() as $p ) {
-		if ( isset( $p['cat_slug'] ) && $p['cat_slug'] === $slug ) {
-			$out[] = $p;
-		}
-	}
-	return $out;
+	return seawinds_scan_category_projects( $slug );
 }
 
 /**

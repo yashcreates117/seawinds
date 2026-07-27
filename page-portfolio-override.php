@@ -103,10 +103,15 @@ $sw_items = array(
 			foreach ( $sw_items as $item ) :
 				$primary = $item['cats'][0];
 				$link    = ! empty( $item['url'] ) ? $item['url'] : home_url( '/portfolio/' . $item['slug'] . '/' );
+				// Prefer the uploaded "main cover"; fall back to the placeholder image.
+				$img = seawinds_category_cover( $item['slug'] );
+				if ( ! $img ) {
+					$img = $item['img'];
+				}
 				?>
 				<a href="<?php echo esc_url( $link ); ?>" class="sw-pf-card sw-animate" data-anim="fadeUp" data-cat="<?php echo esc_attr( implode( ' ', $item['cats'] ) ); ?>">
 					<div class="sw-pf-card__media">
-						<img src="<?php echo esc_url( $item['img'] ); ?>" alt="<?php echo esc_attr( $item['title'] ); ?>" loading="lazy" decoding="async" draggable="false">
+						<img src="<?php echo esc_url( $img ); ?>" alt="<?php echo esc_attr( $item['title'] ); ?>" loading="lazy" decoding="async" draggable="false">
 					</div>
 					<div class="sw-pf-card__body">
 						<span class="sw-pf-card__cat"><?php echo esc_html( $sw_cat_labels[ $primary ] ); ?></span>
