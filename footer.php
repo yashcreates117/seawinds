@@ -70,6 +70,6 @@ $sw = seawinds_brand();
 </a>
 
 <?php wp_footer(); ?>
-<!-- SEAWINDS BUILD: 2026-07-24-cnc-side-videos-v23 -->
+<!-- SEAWINDS BUILD: 2026-07-28-services-links-mobile-hero-v24 -->
 </body>
 </html>

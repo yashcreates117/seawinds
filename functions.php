@@ -1081,7 +1081,7 @@ function seawinds_category_intro( $slug ) {
 					<?php endforeach; ?>
 				</div>
 			</div>
-			<div class="sw-cnc__group">
+			<div class="sw-cnc__group sw-cnc__group--materials">
 				<span class="sw-cnc__label">Materials We Cut</span>
 				<div class="sw-pills">
 					<?php foreach ( $materials as $m ) : ?>

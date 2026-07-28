@@ -634,12 +634,21 @@ button {
 @media (max-width: 768px) {
 	.sw-hero-scroll { height: 150vh; }
 	.sw-hero-scroll__pin { min-height: 480px; }
+	/* Smaller box, anchored bottom-left so it doesn't cover the video. */
 	.sw-hero-glass {
 		left: 5%;
-		right: 5%;
+		right: auto;
+		top: auto;
+		bottom: 12%;
+		transform: none;
 		width: auto;
-		max-width: none;
-		padding: 30px 28px;
+		max-width: 74vw;
+		padding: 18px 20px;
+		border-radius: 14px;
+	}
+	.sw-hero-glass__lines {
+		font-size: clamp(22px, 6.4vw, 32px);
+		min-height: 2.7em;
 	}
 }
 
@@ -1563,7 +1572,27 @@ button {
 	color: var(--charcoal);
 }
 
-.sw-pill:hover {
+/* Linked service pills — clickable, route to a portfolio category. */
+.sw-pill--link {
+	cursor: pointer;
+	text-decoration: none;
+}
+
+.sw-pill--link::after {
+	content: "\2192"; /* → */
+	margin-left: 7px;
+	opacity: 0;
+	transform: translateX(-4px);
+	transition: opacity 0.3s var(--ease), transform 0.3s var(--ease);
+}
+
+.sw-pill--link:hover::after {
+	opacity: 1;
+	transform: translateX(0);
+}
+
+/* Full gold fill only on clickable pills; plain tags stay static. */
+.sw-pill--link:hover {
 	background: var(--gold);
 	border-color: var(--gold);
 	color: var(--charcoal);
@@ -2642,4 +2671,21 @@ button {
 	/* Two videos side by side at the top, content below. */
 	.sw-cnc-video { flex: 0 0 calc(50% - 7px); order: -1; }
 	.sw-cnc-layout .sw-cnc { flex: 0 0 100%; order: 0; max-width: 100%; margin-top: 10px; }
+}
+
+/* CNC "Materials We Cut": exactly 2 per row in a wider middle column. */
+.sw-cnc__group--materials .sw-pills {
+	display: grid;
+	grid-template-columns: repeat(2, 1fr);
+	gap: 10px;
+}
+
+.sw-cnc__group--materials .sw-pill {
+	width: 100%;
+	justify-content: center;
+	text-align: center;
+}
+
+@media (min-width: 769px) {
+	.sw-cnc__groups { grid-template-columns: 1fr 1.5fr 1fr; }
 }

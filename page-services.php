@@ -52,6 +52,34 @@ $sw_categories = array(
 		),
 	),
 );
+
+/*
+ * Services that map cleanly to a portfolio category → the pill becomes a link
+ * to /portfolio/<slug>/. Only confident matches are listed; every other
+ * service stays a plain, non-clickable tag.
+ */
+$sw_service_links = array(
+	'Acrylic Fabrication'    => 'acrylic-fabrication',
+	'Acrylic Display Stand'  => 'acrylic-fabrication',
+	'Custom Acrylic Cubes'   => 'acrylic-fabrication',
+	'Acrylic Laser Cutting'  => 'cnc-cutting',
+	'CNC Router Cutting'     => 'cnc-cutting',
+	'Island Counter'         => 'island-counter',
+	'Gondola Counter'        => 'gondola',
+	'Wall Unit Display'      => 'wall-unit',
+	'Pillar Unit Display'    => 'pillar-unit',
+	'Shopping Mall Kiosk'    => 'mall-kiosk',
+	'Promotion Stands'       => 'promotion-stand',
+	'Exhibition Stands'      => 'exhibition-stand',
+	'Press Wall'             => 'press-wall',
+	'Event Branding'         => 'event-branding',
+	'Pop-up Stand'           => 'pop-up-stand',
+	'Light-box Durotrans'    => 'light-box',
+	'Outdoor Signboard'      => 'outdoor-signboard',
+	'External Pylon Signage' => 'pylon-signage',
+	'Shop-front Signage'     => 'shop-front-signs',
+	'Reception Signage'      => 'reception-signage',
+);
 ?>
 
 <section class="sw-page-hero">
@@ -72,7 +100,11 @@ $sw_categories = array(
 				</div>
 				<div class="sw-pills sw-stagger">
 					<?php foreach ( $cat['services'] as $service ) : ?>
-						<span class="sw-pill sw-animate" data-anim="fadeUp"><?php echo esc_html( $service ); ?></span>
+						<?php if ( isset( $sw_service_links[ $service ] ) ) : ?>
+							<a href="<?php echo esc_url( home_url( '/portfolio/' . $sw_service_links[ $service ] . '/' ) ); ?>" class="sw-pill sw-pill--link sw-animate" data-anim="fadeUp"><?php echo esc_html( $service ); ?></a>
+						<?php else : ?>
+							<span class="sw-pill sw-animate" data-anim="fadeUp"><?php echo esc_html( $service ); ?></span>
+						<?php endif; ?>
 					<?php endforeach; ?>
 				</div>
 			</div>
