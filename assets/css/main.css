@@ -2530,6 +2530,37 @@ button {
 	font-weight: 600;
 }
 
+.sw-cnc__location {
+	display: inline-flex;
+	align-items: center;
+	gap: 8px;
+	font-family: var(--font-body);
+	font-size: 13px;
+	letter-spacing: 0.14em;
+	text-transform: uppercase;
+	color: var(--gold);
+	margin: 0 auto 16px;
+}
+
+.sw-cnc__location-ic {
+	display: inline-flex;
+	color: var(--gold);
+}
+
+.sw-cnc__tagline {
+	font-family: var(--font-head);
+	font-size: clamp(1.6rem, 3.2vw, 2.4rem);
+	font-weight: 600;
+	color: var(--charcoal);
+	letter-spacing: 0.01em;
+	margin: 0 auto 44px;
+}
+
+.sw-cnc__tagline .sw-cnc__dot {
+	color: var(--gold);
+	margin: 0 6px;
+}
+
 .sw-cnc__groups {
 	display: grid;
 	grid-template-columns: repeat(3, 1fr);

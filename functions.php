@@ -1058,6 +1058,13 @@ function seawinds_category_intro( $slug ) {
 			from flat 2D profiles to sculpted 3D forms, across wood, acrylic and metal alike.
 		</p>
 
+		<p class="sw-cnc__location">
+			<span class="sw-cnc__location-ic"><?php echo seawinds_icon( 'pin' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></span>
+			<span>Location: Al Quoz 3</span>
+		</p>
+
+		<p class="sw-cnc__tagline">Fast <span class="sw-cnc__dot">&middot;</span> Affordable <span class="sw-cnc__dot">&middot;</span> Best Service</p>
+
 		<div class="sw-cnc__groups">
 			<div class="sw-cnc__group">
 				<span class="sw-cnc__label">Cutting Machines</span>
