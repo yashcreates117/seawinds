@@ -2680,6 +2680,11 @@ button {
 	gap: 10px;
 }
 
+/* Center the heading over the two columns of material pills. */
+.sw-cnc__group--materials .sw-cnc__label {
+	text-align: center;
+}
+
 .sw-cnc__group--materials .sw-pill {
 	width: 100%;
 	justify-content: center;
