@@ -1070,6 +1070,11 @@ function seawinds_category_intro( $slug ) {
 			<span>Location: Al Quoz 3</span>
 		</p>
 
+		<p class="sw-cnc__location">
+			<span class="sw-cnc__location-ic"><?php echo seawinds_icon( 'phone' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></span>
+			<a class="sw-cnc__phone" href="tel:+971521971575">+971 52 197 1575</a>
+		</p>
+
 		<p class="sw-cnc__tagline">Fast <span class="sw-cnc__dot">&middot;</span> Affordable <span class="sw-cnc__dot">&middot;</span> Best Service</p>
 
 		<div class="sw-cnc__groups">

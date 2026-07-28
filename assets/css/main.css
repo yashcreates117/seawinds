@@ -2560,20 +2560,35 @@ button {
 }
 
 .sw-cnc__location {
-	display: inline-flex;
+	display: flex;
 	align-items: center;
+	justify-content: center;
 	gap: 8px;
 	font-family: var(--font-body);
 	font-size: 13px;
 	letter-spacing: 0.14em;
 	text-transform: uppercase;
 	color: var(--gold);
-	margin: 0 auto 16px;
+	margin: 0 auto 10px;
+}
+
+.sw-cnc__location + .sw-cnc__tagline {
+	margin-top: 24px;
 }
 
 .sw-cnc__location-ic {
 	display: inline-flex;
 	color: var(--gold);
+}
+
+.sw-cnc__phone {
+	color: var(--gold);
+	text-decoration: none;
+	transition: color 0.3s var(--ease);
+}
+
+.sw-cnc__phone:hover {
+	color: var(--charcoal);
 }
 
 .sw-cnc__tagline {
