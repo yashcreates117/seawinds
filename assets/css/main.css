@@ -2599,3 +2599,47 @@ button {
 @media (max-width: 768px) {
 	.sw-cnc__groups { grid-template-columns: 1fr; gap: 24px; }
 }
+
+/* -------------------------------------------------------------------------
+   CNC page side videos (flank the intro on desktop; side-by-side on mobile)
+   ---------------------------------------------------------------------- */
+.sw-cnc-layout {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 40px;
+	max-width: 1180px;
+	margin: 0 auto 54px;
+}
+
+.sw-cnc-layout .sw-cnc {
+	flex: 1 1 auto;
+	max-width: 620px;
+	margin: 0;
+}
+
+.sw-cnc-video {
+	flex: 0 0 210px;
+}
+
+.sw-cnc-video__el {
+	width: 100%;
+	aspect-ratio: 9 / 16;
+	object-fit: cover;
+	display: block;
+	border-radius: 16px;
+	border: 1px solid var(--gold-line);
+	box-shadow: 0 16px 40px rgba(17, 17, 17, 0.12);
+}
+
+@media (max-width: 900px) {
+	.sw-cnc-layout { gap: 22px; }
+	.sw-cnc-video { flex-basis: 165px; }
+}
+
+@media (max-width: 768px) {
+	.sw-cnc-layout { flex-wrap: wrap; gap: 14px; }
+	/* Two videos side by side at the top, content below. */
+	.sw-cnc-video { flex: 0 0 calc(50% - 7px); order: -1; }
+	.sw-cnc-layout .sw-cnc { flex: 0 0 100%; order: 0; max-width: 100%; margin-top: 10px; }
+}

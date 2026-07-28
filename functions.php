@@ -1051,6 +1051,13 @@ function seawinds_category_intro( $slug ) {
 
 	ob_start();
 	?>
+	<div class="sw-cnc-layout">
+		<div class="sw-cnc-video sw-cnc-video--left" aria-hidden="true">
+			<video class="sw-cnc-video__el" autoplay muted loop playsinline preload="auto">
+				<source src="<?php echo esc_url( SEAWINDS_URI . '/assets/videos/cnc-left.mp4' ); ?>" type="video/mp4">
+			</video>
+		</div>
+
 	<div class="sw-cnc">
 		<p class="sw-cnc__lead">
 			Precision cutting, engineered to your exact spec. Our in-house CNC department runs both
@@ -1099,6 +1106,13 @@ function seawinds_category_intro( $slug ) {
 				<?php echo $wa_icon; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
 				<span>Share Your File on WhatsApp</span>
 			</a>
+		</div>
+	</div>
+
+		<div class="sw-cnc-video sw-cnc-video--right" aria-hidden="true">
+			<video class="sw-cnc-video__el" autoplay muted loop playsinline preload="auto">
+				<source src="<?php echo esc_url( SEAWINDS_URI . '/assets/videos/cnc-right.mp4' ); ?>" type="video/mp4">
+			</video>
 		</div>
 	</div>
 	<?php
