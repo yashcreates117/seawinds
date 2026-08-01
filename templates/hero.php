@@ -3,7 +3,7 @@
  * Homepage hero — scroll-scrubbed frame sequence with a frosted-glass text box.
  *
  * The hero video (source: Final.mp4) is pre-rendered into a WebP frame sequence
- * in /assets/hero-frames/ (1280x720, 24fps, quality 85). As the user scrolls
+ * in /assets/hero-frames/ (1280x720, 12fps, quality 85). As the user scrolls
  * through this tall section, hero.js draws the matching frame onto a pinned
  * <canvas>. A frosted-glass box on the left reveals three lines in sequence as
  * the user scrolls.
@@ -14,7 +14,7 @@
  * @package Seawinds
  */
 
-$sw_hero_frames = 240;
+$sw_hero_frames = 120;
 ?>
 <section
 	class="sw-hero-scroll"

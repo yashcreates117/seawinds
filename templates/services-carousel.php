@@ -7,9 +7,15 @@
 
 $sw_services = array(
 	'Wooden Fabrication', 'Acrylic Fabrication', 'Signage Fabrication', 'Graphics Printing',
-	'Signage Installation', 'CNC Router Cutting', 'CNC Laser Cutting', 'Graphics Branding',
+	'Signage Installation', 'CNC Router Cutting', 'CNC Acrylic Laser Cutting', 'Graphics Branding',
 	'Joinery', 'Indoor/Outdoor Branding', 'Shop Decor', 'Plotter Cutting',
 	'Event Fabrication', 'Exhibition Stands',
+);
+
+// Service cards that link to a portfolio category subpage.
+$sw_service_links = array(
+	'CNC Router Cutting'        => 'cnc-cutting',
+	'CNC Acrylic Laser Cutting' => 'cnc-cutting',
 );
 ?>
 <section class="sw-section sw-services-carousel sw-section--light">
@@ -28,10 +34,17 @@ $sw_services = array(
 				<div class="sw-carousel__track">
 					<?php foreach ( $sw_services as $service ) : ?>
 						<div class="sw-carousel__slide">
-							<div class="sw-service-card">
-								<span class="sw-service-card__accent" aria-hidden="true"></span>
-								<span class="sw-service-card__name"><?php echo esc_html( $service ); ?></span>
-							</div>
+							<?php if ( isset( $sw_service_links[ $service ] ) ) : ?>
+								<a class="sw-service-card sw-service-card--link" href="<?php echo esc_url( home_url( '/portfolio/' . $sw_service_links[ $service ] . '/' ) ); ?>">
+									<span class="sw-service-card__accent" aria-hidden="true"></span>
+									<span class="sw-service-card__name"><?php echo esc_html( $service ); ?></span>
+								</a>
+							<?php else : ?>
+								<div class="sw-service-card">
+									<span class="sw-service-card__accent" aria-hidden="true"></span>
+									<span class="sw-service-card__name"><?php echo esc_html( $service ); ?></span>
+								</div>
+							<?php endif; ?>
 						</div>
 					<?php endforeach; ?>
 				</div>

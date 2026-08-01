@@ -940,11 +940,26 @@ button {
 	box-shadow: 0 18px 40px rgba(17, 17, 17, 0.1);
 }
 
+/* Clickable service cards (link to a portfolio category). */
+.sw-service-card--link {
+	text-decoration: none;
+	cursor: pointer;
+}
+
+.sw-service-card--link:hover .sw-service-card__name {
+	color: var(--gold);
+}
+
+.sw-service-card--link:hover .sw-service-card__accent {
+	width: 54px;
+}
+
 .sw-service-card__accent {
 	width: 34px;
 	height: 2px;
 	background: var(--gold);
 	border-radius: 2px;
+	transition: width 0.3s var(--ease);
 }
 
 .sw-service-card__name {
