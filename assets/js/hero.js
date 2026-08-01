@@ -1,6 +1,6 @@
 /* =========================================================================
    Sea Winds — hero.js
-   Scroll-scrubbed hero: draws a JPEG frame sequence onto a pinned <canvas>,
+   Scroll-scrubbed hero: draws a WebP frame sequence onto a pinned <canvas>,
    mapped to how far the user has scrolled through the tall hero section.
    A frosted-glass box on the left reveals three lines in sequence:
      0–33%   "YOUR VISION."
@@ -36,7 +36,7 @@
 		function frameURL(i) {
 			var n = String(i + 1);
 			while (n.length < 4) { n = '0' + n; }
-			return base + 'frame_' + n + '.jpg';
+			return base + 'frame' + n + '.webp';
 		}
 
 		function dpr() {
@@ -53,6 +53,10 @@
 			canvas.style.width = w + 'px';
 			canvas.style.height = h + 'px';
 			ctx.setTransform(ratio, 0, 0, ratio, 0, 0);
+			// Setting canvas.width/height above resets context state, so re-apply
+			// high-quality smoothing each resize for the sharpest frame scaling.
+			ctx.imageSmoothingEnabled = true;
+			ctx.imageSmoothingQuality = 'high';
 			drawFrame(currentFrame < 0 ? 0 : currentFrame, true);
 		}
 

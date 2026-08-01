@@ -2,18 +2,19 @@
 /**
  * Homepage hero — scroll-scrubbed frame sequence with a frosted-glass text box.
  *
- * The hero video (source: Final.mp4) is pre-rendered into a JPEG frame sequence
- * in /assets/hero-frames/. As the user scrolls through this tall section,
- * hero.js draws the matching frame onto a pinned <canvas>. A frosted-glass box
- * on the left reveals three lines in sequence as the user scrolls.
+ * The hero video (source: Final.mp4) is pre-rendered into a WebP frame sequence
+ * in /assets/hero-frames/ (1280x720, 24fps, quality 85). As the user scrolls
+ * through this tall section, hero.js draws the matching frame onto a pinned
+ * <canvas>. A frosted-glass box on the left reveals three lines in sequence as
+ * the user scrolls.
  *
  * To swap the video later: re-generate the frames into /assets/hero-frames/
- * (same frame_0001.jpg… naming) and update data-frame-count below.
+ * (same frame0001.webp… naming) and update data-frame-count below.
  *
  * @package Seawinds
  */
 
-$sw_hero_frames = 90;
+$sw_hero_frames = 240;
 ?>
 <section
 	class="sw-hero-scroll"
